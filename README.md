@@ -1,4 +1,4 @@
-# Thesis
+# Literature Review
 
 ### Bibliography
 Gesteland, Richard R. Cross-cultural business behavior: negotiating, selling, sourcing and 
