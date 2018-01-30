@@ -22,7 +22,7 @@ data source: FDA
 
 
 # Topic 2
-## I’am visualizing product data for a major e-commerce site because I want to show the what drives potential customers to make a purchase order to show marketing teams the factors they want to consider.
+## I’am visualizing product data for a major e-commerce site because I want to show what drives potential customers to make a purchase in order to show marketing teams the factors they want to consider.
 
 [![e-commerce.png](e-commerce.png)]
 
