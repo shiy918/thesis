@@ -49,8 +49,8 @@ data source: web scrapping
 # Literature Review
 
 ### Bibliography
-Gesteland, Richard R. Cross-cultural business behavior: negotiating, selling, sourcing and 
-managing across cultures. Copenhagen, Denmark: Copenhagen Business School Press, 2005.
+Gesteland, Richard R. *Cross-cultural business behavior: negotiating, selling, sourcing and 
+managing across cultures*. Copenhagen, Denmark: Copenhagen Business School Press, 2005.
 
 Grönroos, Christian. *In search of a new logic for marketing: foundations of contemporary theory*. Hoboken, NJ: Wiley, 2007. 
 
