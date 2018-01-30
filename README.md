@@ -3,19 +3,14 @@
 
 [![enforcement.png](enforcement.png)]
 
-On the food side:
-what kind of food(classification code)
-—statistics on each category
-—purchasing pattern (consumer behaviors)
-
-On the production side:
-how many units being recalled
-location of the factories
-time of the enforcement 
-company name—viewers won’ t be able to know info on info like financial reports, etc
-
-On the distribution side:
-—where did these food go
+# products on an e-commerce site
+## most popular categories of products
+## categories of products
+### most popular
+* bought the most
+* rated the highest
+### ranked prices 
+### free shipping or not
 
 
 data source: FDA 
@@ -26,19 +21,21 @@ data source: FDA
 
 [![e-commerce.png](e-commerce.png)]
 
-I am breaking down large categories of products:
-
-Within each category of products:
-
-most popular products 
-       a.bought the most
-       b.rated the highest
-
-2.  assorted by price 
-      — in search for relationships between price and purchase 
- 
-3. free shipping or not
-     — in search for relationships between free shipping and purchase
+# food recall enforcement 
+## food 
+### categories
+* diary,meats, etc.
+### price 
+* a pattern? low price vs. unsafe food?
+## enforcement/factory
+### company info
+* name
+* location 
+### number of units
+### time 
+## distribution
+### location
+* density of where most unsafe foods are distributed to 
 
 
 data source: web scrapping 
