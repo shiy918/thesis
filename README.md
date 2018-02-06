@@ -4,20 +4,19 @@
 [![enforcement.png](enforcement.png)]
 
 # food recall enforcement 
-## food 
-### categories
-* diary,meats, etc.
-### price 
-* a pattern? low price vs. unsafe food?
-## enforcement/factory
-### company info
-* name
-* location 
-### number of units
-### time 
-## distribution
-### location
-* density of where most unsafe foods are distributed to 
+## statistics
+### categories of foods
+* how number of recalls in each category change throughout time ?
+* most frequent type of food
+### company
+* Big names? Appear the most frequent?
+## mapping
+### company 
+* location
+* recall time
+* recall reason
+### distribution
+* export/import 
 
 
 
