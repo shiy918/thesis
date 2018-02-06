@@ -1,7 +1,7 @@
 # Topic 
 ## I’m visualizing food recall enforcement because I want to show where the unsafe food came from and what kind of food they are in order to inform the public which factories to avoid and let them be cautious in purchasing foods.
 
-[![enforcement.png](enforcement.png)]
+[![enforcement .png](enforcement .png)]
 
 # food recall enforcement 
 ## food 
