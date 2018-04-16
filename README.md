@@ -7,7 +7,7 @@ Food safety is essential to civilizations. Consumption of bacteria contaminated 
 
 
 [![food-safety.png](food-safety.png)]
-
+*some of the main features and components of this project shown above*
 
 
 
