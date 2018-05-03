@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Thesis Project</title>
+		<script src="https://d3js.org/d3.v4.min.js"></script>
+		<script src="https://d3js.org/d3-axis.v1.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js"   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="   crossorigin="anonymous"></script>
+		<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.0/mapbox-gl.js'></script>
+        <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.0/mapbox-gl.css' rel='stylesheet' />
+    
+        <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
+	    <link href="https://fonts.googleapis.com/css?family=Josefin+Slab|PT+Sans|Russo+One" rel="stylesheet">
+       
+
+		<style>
+
+		   body{
+		   	 width:100%;
+		   	 height:100%;
+		   	 /*padding-left: 10vw;*/
+		   	 margin: 10px 50px 10px 0px;
+		   	 background-color:#26292d;
+		   }
+
+		   #title{
+		   	 width:100vw;
+		   	 height:100vh;
+		   	 text-align:center;
+		   }
+
+		  .situation{
+		  	 color:#66cfdd;
+		  	 font-size:30px;
+		  	 /*font-family:'Raleway', sans-serif;*/
+		  	 font-family: 'PT Sans', sans-serif;
+		  }
+
+		  #first_part{
+		  	position:relative;
+		  	transition: opacity 3s;
+		  	opacity:0;
+		  	/*z-index:99;*/
+		  }
+
+		  .start{
+
+		   	 font-size:30px;
+		   	 /*padding-left:20vw;*/
+		   	 /*font-family:'Raleway', sans-serif;*/
+		   	 color:#ea3e3ed1;
+		   	 font-family: 'PT Sans', sans-serif;
+		   }
+
+		   h1{
+		   	 margin-top:40vh;
+		   	 font-size:100px;
+		   	 color:#56cbde;
+		   	/* padding-left:10vw;*/
+		   	 font-family: 'Righteous', cursive;
+		   	 /*font-family: 'Russo One', sans-serif;*/
+		   	 text-shadow: 2px 2px 4px #000000;
+		   }
+
+		   #description{
+		   	 width:85vw;
+		   	 height:30vh;
+		   	 margin-bottom:5vh;
+		   	 background-color: #c6add6;
+		   }
+
+
+		   #icons{	 
+		    padding-left:8vw; 
+		    /*opacity:0.2; */
+		    position:relative; 		   	
+		   	width:90vw;
+		   	height:15vh;	
+		   	font-family: 'Josefin Slab', serif;	   	
+		   }
+
+		   #graph{
+		   	/* transition: opacity 5s;*/
+		   	 position:relative;
+		   	 /*opacity:0.2;*/
+		   	 left: 0;
+		   	 top: 0;
+		   	 width:100vw;
+		   	 height:100vh;		   	
+             background-color:rgba(55, 66, 76, 0.3);
+             font-family: 'Josefin Slab', serif;
+		   }
+
+		   #food-icon{
+		   	 display:inline-block;
+		   	 font-size:10px;
+		   	 text-align:center;
+		   	 margin:5px;
+             width:75px;
+             height:75px;
+             color:white;
+		   }
+
+		   img{
+		   	width:65px;
+		   	height:65px;
+		   }
+
+
+		   #map { 
+		     /*visibility:hidden;*/
+	  	     /*position:fixed;*/
+	  	     top: 0;
+	  	     left:0; 
+	  	/*	 padding-right:5vw;
+	  		 margin-top:5vh;*/
+	  		 width:85vw; 
+	  		 height:100vh;
+		   }
+
+		   #side-bar{
+		   	 width:15vw;
+		   	 height:100vh;
+
+		   }
+
+		    svg {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+            }
+
+            .hidden {
+            	display: none;
+            }
+
+            
+            #overlay{
+            	/*visibility:hidden;*/
+            	position:fixed;
+            	display:block;
+            	width:20vw;
+            	height:50vh;
+            	min-width:150px;
+            	min-height:200px;
+            	margin-top:350px;
+            	margin-left:800px;
+            	background-color:rgba(55, 66, 76, 0.3);
+            	z-index:99;
+            }
+
+            #outbreaks, #bacteria{
+            	transition:visibility 3s;
+            	visibility:hidden;
+            	width:100vw;
+            	height:85vh;
+            	padding-top:5vh;
+            }
+
+            #bacteria{
+            	display:flex;
+            }
+
+            .bacteria-name{
+            	width:50vw;
+            	height:85vh;
+            	color:white;
+            	font-family: 'Josefin Slab', serif;	
+            	background-color:rgba(55, 66, 76, 0.3);
+            }
+
+            .bacteria-info{
+            	/*position:relative;
+            	float:right;*/
+            	width:50vw;
+            	height:85vh;
+            	background-color:rgba(55, 66, 76, 0.3);
+            }
+
+
+
+            .recalls{
+            	width:80vw;
+            	height:10vh;
+            	padding-top:5vh;
+            }
+
+            #map_part{
+            	transition:visibility 3s;
+            	visibility:hidden;
+            	display:flex;
+            }
+
+		</style>
+
+		<script>
+			
+		//elements being clicked, show divs
+		   $().ready(function(){
+		  	  $('#title').click(function(){
+		  	  	 $('#first_part').css('opacity',1);
+		  	  })	        
+	
+		// 	$('.go_to_map').click(function(){
+		// 			console.log('hello');
+		// 			$('#map').css('visibility','visible');
+		// 			$('#overlay').css('visibility','visible');
+		// // 			// $('#graph').css('opacity',0);					
+		// 		})
+
+			// $('.see_outbreaks').click(function(){
+			// 	console.log('hello');
+			// 	 $('#outbreaks').css('visibility','visible')
+			// })
+
+			// $('.know_bacteria').click(function(){
+			// 	 console.log('hello');
+			// 	 $('#bacteria').css('visibility','visible');
+			// })
+		  })
+			
+		</script>
+
+	</head>
+	<body>
+		
+		<div id='title'>
+			<h1>Bacteria Invasion</h1>	
+			<h3 class='start'>Is Your Favorite Food(s) Contaminated?</h3>
+  		</div>
+
+  		<div id='first_part'>
+	  		<div id='icons'>
+	  			<div class='meats' id='food-icon'  ><img src="./icons/chicken-leg.svg" >Meats</div>
+	  			<div class='seafood' id='food-icon' ><img src='./icons/hot-fish-.svg'>Seafood</div>
+	  			<div class='vegies' id='food-icon' ><img src='./icons/broccoli.svg' >Vegetables</div>
+	  			<div class='cheese' id='food-icon' ><img src='./icons/cheese.svg' >Cheese</div>
+	  			<div class='fruits' id='food-icon' ><img src='./icons/orange.svg'>Fruits</div>
+	  			<div class='ice_creams' id='food-icon' ><img src='./icons/ice_cream.svg'>Ice Creams</div>
+	  			<div class='desserts' id='food-icon' ><img src='./icons/cake.svg' >Desserts</div>
+	  			<div class='snacks' id='food-icon' ><img src='./icons/popcorn.svg'>Snacks</div>
+	  			<div class='salads' id='food-icon' '><img src='./icons/salad.svg'>Salads</div>
+	  			<div class='drinks' id='food-icon' ><img src='./icons/drinks.svg'>Drinks</div>
+	  			<div class='flour' id='food-icon' ><img src='./icons/flour.svg'>Flour</div>
+	 			<div class='condiments' id='food-icon' ><img src='./icons/salt.svg' >Condiments</div>
+	  	    </div>
+
+	  	    <div id='graph'> 		
+		  	</div>
+		</div>
+
+	  	<div id='bacteria'>
+	  		<div class='bacteria-name'>
+	  			<ul>
+				  <li>Salmonella</li>
+				  <li>E_coli</li>
+				  <li>Norovirus</li>
+				  <li>Campylobacter</li>
+				  <li>Listeria</li>
+				  <li>Clostridium</li>
+				</ul>
+	  		</div>
+	  		<div class='bacteria-info'>
+	  	    </div>
+	  	</div>
+<!-- 
+  	    <div id='outbreaks'>
+  	    	<div class='outbreaks-info'>
+  	    	</div>
+  	    </div> -->
+
+
+  	    <div id='map_part'>
+		  	<div id = 'map'>
+		    </div>
+		    <div id = 'side-bar'>
+		    </div>
+<!-- 
+		    <div id = 'overlay'>
+		    </div> -->
+		</div>
+        	
+
+        <script>
+
+	        //read in clustered data
+	        d3.json('./parsed_data/Clustered_N_Organized_By_Food_Group.json',function(err,data){
+
+	        	DrawAnalysis(data);
+	        })
+            
+
+            function DrawAnalysis(data){
+
+	            	var counts_I_total = 0;
+	            	var counts_II_total = 0;
+	            	var counts_III_total = 0;
+	            	var other_total = 0;
+
+		        	for (var i in data){
+
+		        		//count classifications for each type of food
+		        		var counts_I = 0;
+		        		var counts_II = 0;
+		        		var counts_III = 0;
+		    			var other = 0;
+
+		    			for (var j=0; j<data[i].length;j++){
+
+		    				var classification = data[i][j].classification;
+
+			        		if (classification == 'Class I'){
+			        			counts_I_total += 1;
+
+			        			counts_I += 1;
+			        		}
+
+			        		else if (classification == 'Class II'){
+			        			counts_II_total += 1;
+
+			        			counts_II += 1;
+			        		}
+
+			        		else if (classification == 'Class III'){
+			        			counts_III_total += 1;
+
+			        			counts_III += 1;
+			        		} 
+
+			        		else {
+			        			other_total += 1;
+
+			        			other += 1;
+			        		}
+
+				        }
+				        var counts=[counts_I,counts_II,counts_III, other];
+
+				        data[i].counts = counts;
+		        	}
+
+
+
+		        	//assign a color to each category of food
+		        	var colors = { Meats: '#c4725e', Seafood: '#5aa7bc', Vegetables: '#82bc5a', Cheese: '#e8af4c', Fruits: '#f2a9a9', Ice_Creams: '#efbae2', Desserts: '#f282b3', Snacks: '#9dafdd', Salads: '#68b79d', Drinks: '#aa8fc4', Flour: '#d6a922', Condiments:'#8c6662' };
+
+
+		            data.Cheese.color = colors.Cheese;
+		            data.Condiments.color = colors.Condiments;
+		            data.Meats.color = colors.Meats;
+		            data.Seafood.color = colors.Seafood;
+		            data.Vegetables.color = colors.Vegetables;
+		            data.Fruits.color = colors.Fruits;
+		            data.Ice_Creams.color = colors.Ice_Creams;
+		            data.Desserts.color = colors.Desserts;
+		            data.Snacks.color = colors.Snacks;
+		            data.Salads.color = colors.Salads;
+		            data.Drinks.color = colors.Drinks;
+		            data.Flour.color = colors.Flour;
+
+		            //assign name to the data
+		            data.Cheese.name = 'Cheese';
+		            data.Condiments.name = 'Condiments';
+		            data.Meats.name = 'Meats';
+		            data.Seafood.name = 'Seafood';
+		            data.Vegetables.name = 'Vegetables';
+		            data.Fruits.name = 'Fruits';
+		            data.Ice_Creams.name = 'Ice Creams';
+		            data.Desserts.name = 'Desserts';
+		            data.Snacks.name = 'Snacks';
+		            data.Salads.name = 'Salads';
+		            data.Drinks.name = 'Drinks';
+		            data.Flour.name = 'Flour';
+
+
+		        	var width=$('#graph').width();
+	        		var height=$('#graph').height();
+
+		           	var svg = d3.select('#graph')
+			             		  .append('svg')
+			             		  .attr('width',width)
+			             		  .attr('height',height);
+
+			        var tau = 2* Math.PI;
+
+			        var arc = d3.arc()
+			        			.innerRadius(120)
+			        			.outerRadius(200)
+			        			.startAngle(0)
+			        			.endAngle(tau);
+
+			        		   
+			        //append an arc for number of cases percentage analysis
+		            svg.append('path')
+		               .attr('class','total_percent')
+		               .attr('d',arc)
+		               .attr('fill','none')
+		               .attr('stroke','rgb(219, 199, 218)')
+			           .attr("transform", 'translate(' + width / 2 + ',' + height / 2 + ')');
+			       
+			        //entrances to other layers of information
+			        svg.append('text')
+			        	.attr('class','classification')
+			        	.text('Are They Detrimental?')
+			        	.attr('fill','red')
+			        	.attr('transform','translate(' + width * 1 /15 + ',' + height *1 /2  +')');
+
+
+			        svg.append('text')
+			        	.attr('class','go_to_map')
+			        	.text('See All Recalls')
+			        	.attr('fill','white')
+			        	.attr('transform','translate(' + width * 8 /10 + ',' + height *1 / 6 +')');
+
+			        svg.append('text')
+			        	.attr('class','see_outbreaks')
+			        	.text('See Outbreaks')
+			        	.attr('fill','white')
+			        	.attr('transform','translate(' + width * 8 /10 + ',' + height *2 / 6 +')');
+
+			         svg.append('text')
+			        	.attr('class','know_bacteria')
+			        	.text('Get to Know the Bacteria')
+			        	.attr('fill','white')
+			        	.attr('transform','translate(' + width * 8 /10 + ',' + height *3 / 6 +')');
+
+			        //clicks, then show
+		   //      	$('.see_outbreaks').click(function(){
+					// 	console.log('hello');
+					// 	 $('#outbreaks').css('visibility','visible')
+					// })
+
+					$('.know_bacteria').click(function(){
+						 console.log('hello');
+						 $('#bacteria').css('visibility','visible');
+					})
+
+					$('.go_to_map').click(function(){
+						console.log('hello');
+						// $('#map').css('visibility','visible');
+						// $('#overlay').css('visibility','visible');
+			// 			// $('#graph').css('opacity',0);
+						$('#map_part').css('visibility','visible');			
+					})
+
+
+			       
+			       //create a dataset for update later when buttons are clicked on 
+			       var dataToAdd = [];
+			      
+			       //keep track of the number of times being clicked on
+			       var meats_clicked = 0;
+			       var seafood_clicked = 0;
+			       var vegies_clicked = 0;
+			       var cheese_clicked = 0;
+			       var fruits_clicked = 0;
+			       var ice_creams_clicked = 0;
+			       var desserts_clicked = 0;
+			       var snacks_clicked = 0;
+			       var salads_clicked = 0;
+			       var drinks_clicked = 0;
+			       var flour_clicked = 0;
+			       var condiments_clicked = 0;
+
+			        //to alternate datasets for filling the arcs later	        
+	        		$('.meats').click(function(){
+	        			meats_clicked += 1;
+	        		    if (meats_clicked <= 1){dataToAdd.push(data.Meats);}
+
+	        			fillInArc(dataToAdd);
+	        		})
+	        	
+	        		$('.seafood').click(function(){       			
+	        			seafood_clicked += 1;
+	        			if (seafood_clicked <= 1){dataToAdd.push(data.Seafood);}
+
+	        			fillInArc(dataToAdd);
+	        		})		        	
+
+		        	$('.vegies').click(function(){
+		        		vegies_clicked += 1;
+	        			if (vegies_clicked <= 1){dataToAdd.push(data.Vegetables);}
+
+		        		 fillInArc(dataToAdd);
+		        	})
+
+		        	$('.cheese').click(function(){
+		        		cheese_clicked += 1;
+	        			if (cheese_clicked <= 1){dataToAdd.push(data.Cheese);}
+
+		        		 fillInArc(dataToAdd);
+		        	})
+
+		        	$('.fruits').click(function(){
+		        		fruits_clicked += 1;
+	        			if (fruits_clicked <= 1){dataToAdd.push(data.Fruits);}
+
+		        		 fillInArc(dataToAdd);
+		        	})
+
+		        	$('.ice_creams').click(function(){
+		        		ice_creams_clicked += 1;
+	        			if (ice_creams_clicked <= 1){dataToAdd.push(data.Ice_Creams);}
+
+		        		 fillInArc(dataToAdd);
+		        	})
+
+		        	$('.desserts').click(function(){
+		        		desserts_clicked += 1;
+	        			if (desserts_clicked <= 1){dataToAdd.push(data.Desserts);}
+
+		        		 fillInArc(dataToAdd);
+		        	})
+
+		        	$('.snacks').click(function(){
+		        		snacks_clicked += 1;
+	        			if (snacks_clicked <= 1){dataToAdd.push(data.Snacks);}
+
+		        		 fillInArc(dataToAdd);
+		        	})
+
+		        	$('.salads').click(function(){
+		        		salads_clicked += 1;
+	        			if (salads_clicked <= 1){dataToAdd.push(data.Salads);}
+
+		        		 fillInArc(dataToAdd);
+		        	})
+
+		        	$('.drinks').click(function(){
+		        		drinks_clicked += 1;
+	        			if (drinks_clicked <= 1){dataToAdd.push(data.Drinks);}
+
+		        		 fillInArc(dataToAdd);
+		        	})
+
+		        	$('.flour').click(function(){
+		        		flour_clicked += 1;
+	        			if (flour_clicked <= 1){dataToAdd.push(data.Flour);}
+
+		        		 fillInArc(dataToAdd);
+		        	})
+
+		        	$('.condiments').click(function(){
+		        		condiments_clicked += 1;
+	        			if (condiments_clicked <= 1){dataToAdd.push(data.Condiments);}
+
+		        		 fillInArc(dataToAdd);
+		        	})
+	        		        
+
+					        //to fill in arc with data
+					        function fillInArc(inputs){
+
+					        	d3.select('g').remove();
+
+					        	console.log(inputs);
+					   
+						        var fillArc = d3.arc()
+						        			    .innerRadius(120)
+						        			    .outerRadius(200)
+						        			    .padAngle(0.001)
+						        			    
+						        		
+						        var total_bacteria = 4602;
+
+						        var dataForUse = {};
+
+						        var data = [];
+						        var colors = [];
+						        var names = [];
+						
+
+						        for (var i in inputs){
+
+						        	var percentage = (inputs[i].length)/total_bacteria;
+
+						        	var color = inputs[i].color;
+						        	var name  = inputs[i].name;
+
+						        	data.push(percentage);
+						        	colors.push(color);	
+						        	names.push(name);				        	
+
+						        }
+
+
+
+						        dataForUse.data = data;
+						        dataForUse.colors = colors;
+						        dataForUse.names = names;
+								
+
+
+						        	//for each row, create a startAngle and an endAngle based on the dataset that is updated each time clicked
+						        	var anglesTotal = [];
+
+						        	var previous = 0 ; 
+						    
+						            //loop through the dataset 
+						            for (var i=0; i<data.length;i++){
+
+						            	//create a new data for startAngles and endAngles
+						            	var angles = {};
+
+						            	
+					            		angles.startAngle = previous
+							            angles.endAngle = previous + data[i] * tau 
+							            previous += data[i] * tau
+
+							            anglesTotal.push(angles);						           							           
+						            }
+
+
+						            dataForUse.anglesTotal = anglesTotal;
+
+
+								        var Assign = function(d,i){return d;}
+
+								     	      
+								        var pieChart = svg.append('g')								        		       
+								        				  .attr("transform", 'translate(' + width / 2 + ',' + height / 2 + ')')
+
+								        var pieGroup = pieChart.selectAll('.arcs_total')
+								        					   .data(dataForUse.anglesTotal)
+								        					   .enter()
+								        					   .append('g')
+								        					   .attr('class','arcs_total');
+
+								    
+
+								        var colors = dataForUse.colors;
+
+
+								        pieGroup.append('path')
+				        		                 .attr('d',fillArc)
+				        		                 .attr('fill', function(d,i){ return Assign(colors)[i];});
+
+
+								        var secondArcs = d3.arc()
+						        			    		  .innerRadius(210)
+						        			    		  .outerRadius(230)
+						        			    		  .padAngle(0.001)
+
+
+							            var colorsForClass = [];
+
+								        var classesAll = [];
+
+								        for (var i=0; i<inputs.length;i++){
+
+								           var class_I = inputs[i].counts[0]/total_bacteria;
+								           var colors_I ='#d62a0c';
+								           var class_II = inputs[i].counts[1]/total_bacteria;
+								           var colors_II = '#db523b';
+								           var class_III = inputs[i].counts[2]/total_bacteria;
+								           var colors_III = '#ccaba5';
+								           var other = inputs[i].counts[3]/total_bacteria;
+								           var colors_other = 'none';
+								    
+
+								           var class_percentages = [class_I,class_II,class_III,other];
+								          
+								           classesAll.push(class_percentages);
+								           colorsForClass.push(colors_I);
+								           colorsForClass.push(colors_II);
+								           colorsForClass.push(colors_III);
+								           colorsForClass.push(colors_other);
+								         
+								        }
+
+
+								        dataForUse.classes = classesAll;
+
+								        dataForUse.colorsForClass = colorsForClass;
+
+								        console.log(classesAll);
+
+								        var anglesTotalClass = [];
+
+								        var previousForClass = 0;
+
+
+								        for(var i=0;i<classesAll.length;i++){
+
+
+							            		for (var j=0; j<classesAll[i].length;j++){
+
+						            			    var angles = {};
+						            			
+						    
+									            		angles.startAngle = previousForClass;
+									            		angles.endAngle = previousForClass + classesAll[i][j] * tau
+									            		previousForClass += classesAll[i][j] * tau
+
+
+									            		anglesTotalClass.push(angles);
+									            	
+								            	 }
+
+								        }
+
+								        dataForUse.anglesTotalClass = anglesTotalClass;
+
+								        console.log(dataForUse);
+
+
+								        // dataForUse.anglesTotalClass = anglesTotalClass;
+								        var colorsClass = dataForUse.colorsForClass;
+
+
+								        
+								        var pieChartClass = svg.append('g')								        		       
+								        				 	   .attr("transform", 'translate(' + width / 2 + ',' + height / 2 + ')');
+
+
+								        var pieGroupClass = pieChart.selectAll('.arcs_classes')
+								        					   .data(dataForUse.anglesTotalClass)
+								        					   .enter()
+								        					   .append('g')
+								        					   .attr('class','arcs_classes');
+
+
+
+								        pieGroupClass.append('path')
+				        		                 .attr('d',secondArcs)
+				        		                 .attr('fill', function(d,i){ return Assign(colorsClass)[i];}
+				        		                 )
+				        		                 .attr('visibility','hidden')
+				        		                 .on('mouseover',function(d){
+
+				        		                     console.log(this);
+				        		                     console.log(d);
+
+				        		                 	//append text explanation for each mouseover event on classificaitons
+				        		                 	svg.append('text')
+								        			   .attr('class','center_piece')
+								        	           .text(function(){
+								        	           	  return 'hello';
+								        	           })
+								        	           .attr('fill','white')
+								        	 		   .attr('transform','translate(' + width / 2  + ',' + height / 2 +')');
+
+				        		                 });
+
+				        		        var names = dataForUse.names;
+
+
+				        		         var content = ['Can Cause Death','Can Cause Discomfort','Not Serious'];
+								         var legendColor = ['#d62a0c','#db523b','#ccaba5'];
+
+
+								         var lineup = d3.scaleOrdinal()
+								        			   .domain(content)
+								        			   .range(legendColor);
+
+								        //console.log(lineup);
+
+
+								        //draw legend
+								        //create a g for legend 
+								        //in g, append rect and text
+									    var legend =  svg.append('g')
+									    			     .attr('class','legend')
+											             .attr('transform','translate(' + width * 1 /15 + ',' + height * 4 /6  +')');
+
+
+							
+										legend.selectAll('rect')
+											  .data(lineup.domain())
+											  .enter()
+											  .append('rect')
+											  .attr('x',0)
+											  .attr('y',0)
+									     	  .attr('width',10)
+								        	  .attr('height',10)
+								        	  .attr("transform", function (d, i) {
+										                return "translate(0," + i * 20 + ")"
+										        })
+								        	  .style('fill',function(d,i){
+								        	  	return Assign(legendColor)[i];
+								        	  })
+
+
+								        var legendwords = svg.append('g')
+									    			     .attr('class','legendwords')
+											             .attr('transform','translate(' + width * 1.5 /15 + ',' + height * 4 /6  +')');
+
+
+								        legendwords.selectAll('text')
+								              .data(content)
+								              .enter()
+								              .append('text')
+								              .attr('x',20)
+								              .attr('y',10)
+								              .attr("transform", function (d, i) {
+										                return "translate(0," + i * 20 + ")"
+										      })
+								              .text(function (d, i) {
+										            return d
+										        })
+								              .style('fill','white')
+								              .style("text-anchor", "start")
+            								  .style("font-size", 15);
+          
+
+
+										//append names to the arc
+				        		        // svg.selectAll('.names')
+				        		        // 		.data()
+				        		        // 		.append('text')
+				        		        // 		.attr('class','names')
+				        		        // 		.append('textPath')
+				        		        // 		.text(function(d,i){
+
+				        		        // 			return ;});
+ 										
+				       
+
+								        //hide classification layer first, then show as clicked on
+								         $('.classification').click(function(){
+								         
+								         	$('.arcs_total path').attr('fill','grey');
+								         	$('.arcs_classes path').attr('visibility','visible');
+
+								         })
+
+						    }
+	       
+            }
+
+
+
+
+            //for outbreaks,re-structuring data, by year, by type of virus
+            d3.csv('Outbreak_Data.csv',function(err,data){
+
+
+            	//organize by different types of virus
+            	var Norovirus=[];
+            	var Salmonella=[];
+            	var Campylobacter=[];
+            	var E_coli=[];
+            	var Listeria=[];
+            	var Clostridium=[];
+
+
+            	for (var i in data){
+
+            		if (data[i].Etiology !== undefined){
+
+	            		var bacteria = data[i].Etiology;
+
+	            		if( bacteria.search(/Salmonella/g) > -1) { Salmonella.push(data[i]); }
+	            		if( bacteria.search(/Norovirus/g) > -1) { Norovirus.push(data[i]); }
+	            		if( bacteria.search(/Campylobacter/g) > -1) { Campylobacter.push(data[i]); }
+	            		if( bacteria.search(/coli/g) > -1) { E_coli.push(data[i]); }
+	            		if( bacteria.search(/Listeria/g) > -1) { Listeria.push(data[i]); }
+	            		if( bacteria.search(/Clostridium/g) > -1) { Clostridium.push(data[i]); }
+            	    }
+            	}
+
+            	//update the data with the new structure
+            	var data=[Norovirus,Salmonella,Campylobacter,Listeria,Clostridium];
+
+
+            	DrawOnOutbreaks(data);
+
+            })
+
+
+            //draw results from the outbreaks data
+            function DrawOnOutbreaks(outbreaks){
+
+            	var deaths=0;
+            	var illnesses=0;
+            	var hospitalized=0;
+
+            	var consequences=[];
+
+            	//loop through data to calculate the total number of deaths and illnesses
+            	for (var i=0;i<outbreaks.length;i++){
+
+            		//getting the total counts for each type of bacteria
+            		var deathForThis=0;
+            		var illForThis=0;
+            		var hosForThis=0;
+
+            		var results={};
+
+
+            		for (var j in outbreaks[i]){
+
+            			deaths += Number(outbreaks[i][j].Deaths);
+            			illnesses += Number(outbreaks[i][j].Illnesses);
+            			hospitalized += Number(outbreaks[i][j].Hospitalizations);
+
+            			deathForThis += Number(outbreaks[i][j].Deaths);			
+            			illForThis += Number(outbreaks[i][j].Illnesses);
+            			hospitalized += Number(outbreaks[i][j].Hospitalizations);
+            	
+            		 }
+
+            		results.death = deathForThis;
+            		results.illnesses = illForThis;
+            		results.hospitalization = hosForThis;
+
+            		consequences.push(results);
+            	}
+
+            	//count the total number for scaling later
+            	for(var i in consequences){
+
+		        	var counts = consequences[i].death + consequences[i].illnesses + consequences[i].hospitalization;
+		        	consequences[i].counts = counts;
+		        }
+
+		        console.log(consequences);
+
+
+
+            	 var width = $('.outbreaks-info').width();
+            	 var height = $('.outbreaks-info').height();
+
+            	 //append a svg to the div
+            	 var graph = d3.select('.outbreaks-info')
+		            	  	.append('svg')
+		            	 	.attr('width',width)
+		            	 	.attr('height',height);
+
+
+		        // var x = d3.scaleLinear()
+		        // 	      .domain(['deaths','illnesses','hospitalized'])
+
+		        //  var y = d3.scaleBand()
+		        //  			.domain([])
+
+		         // graph.append('g')
+		        	//  .attr('id','chart1');
+		        	 
+					      //   	var chart1 = graph.select('#chart1');
+
+					      //   	chart1.selectAll('rect')
+					      //   		 .data(consequences[0])
+					      //   		 .enter()
+					      //   		 .append('rect')
+					      //   		 .attr('x',function(d){})
+
+
+            }
+
+         
+
+
+            //map, read geojson
+            d3.json('./parsed_data/joined_data_for_map.json',function(err,geojson){
+            	
+            	DrawOnMap(geojson);
+
+            })
+
+
+
+           //map setup
+			mapboxgl.accessToken = 'pk.eyJ1Ijoic2hpeTkxOCIsImEiOiJjajl6eW16ZTE4dXIyMzJzNHVpaGxhZmh4In0.K8ys9-jUCZma5DR_JlkxIA';
+
+			var map = new mapboxgl.Map({
+				container: 'map',
+				style: 'mapbox://styles/shiy918/cjf1onfbd5e3o2slw54q3ybzl',
+				center: [-96, 37.8],
+				zoom: 3.5
+				
+			});
+
+			
+
+			//draw on map
+			function DrawOnMap(geojson){
+
+			   map.addControl(new mapboxgl.NavigationControl(),'top-right');
+
+			   var container = map.getCanvasContainer()
+               var svg = d3.select(container).append('svg')
+               
+               var transform = d3.geoTransform({point: projectPoint});
+               var path = d3.geoPath().projection(transform);
+
+
+               var coordinates=[];
+
+               var featureElement = svg.selectAll('path')
+            		.data(geojson)
+            		.enter()
+                    .append('path')
+                    .attr('d', path)
+                    .attr('stroke','rgba(119, 150, 175, 0.3)')
+                    .attr('fill','rgba(68, 74, 79, 0.1)')
+                    .each(function(d){   
+	
+	                	if (d.cases !== undefined){
+
+	                		//var coordinates = [];
+
+	                		for(var j in d.cases){
+
+	            				if (d.cases[j].latLong !== undefined){
+
+		                			//reverse the order of lattitude and longtitude
+		                			var LngLat = [d.cases[j].latLong.lng, d.cases[j].latLong.lat];
+		                			coordinates.push(LngLat);
+	                			}    
+	                 		 }
+	                 		 //console.log(coordinates.length);
+	                 		 d.coordinates = coordinates;
+	                    }                    
+                    })
+
+                  
+                   
+               //create circles 
+               var circleElement=svg.selectAll('circle')
+                  .data(coordinates)
+                  .enter()
+                  .append('circle')
+                  .attr('class','dots')
+                  .attr('cx',function(d,i){
+                  		//console.log(d);
+                  		return map.project(d).x;
+       //               if (d.coordinates !== undefined){ 
+ 						
+ 						// for (var j=0;j<d.coordinates.length;j++){
+ 						// 	//console.log(map.project(d.coordinates[j]).x);
+ 						// 	return map.project(d.coordinates[j]).x;
+ 						// }
+	      //            }
+	                
+                  })
+                  .attr('cy',function(d,i){ 
+                  		return map.project(d).y;
+       //            	if (d.coordinates !== undefined){
+
+       //            		for (var j=0;j<d.coordinates.length;j++){
+ 						
+ 						// 	return map.project(d.coordinates[j]).y;
+ 						// }
+
+       //    			 }
+	                  
+	              })
+                  .attr('r','3px')
+                  .attr('fill','#ef5dcb')
+                  .style('stroke','rgb(244, 195, 239)');
+
+               
+                //create popup/text element for each circle  
+                var circles = svg.select('.dots');
+
+           
+
+            	function update() {
+                    featureElement.attr("d", path);
+                    // circleElement.data(coordinates)
+				                //   .enter()
+				                //   .attr('cx',function(d){ return map.project(d).x; })
+				                //   .attr('cy',function(d){ return map.project(d).y; });                  
+				 }
+
+
+
+                map.on("viewreset", update)
+                map.on("movestart", function(){
+            		svg.classed("hidden", true); 
+            	});
+
+                map.on("rotate", function(){
+            		svg.classed("hidden", true);
+            	});
+
+                map.on("moveend", function(){
+            		update();
+            		svg.classed("hidden", false);
+            	});
+
+                update();
+
+                function projectPoint(lon, lat) {
+                    var point = map.project(new mapboxgl.LngLat(lon, lat));
+            		this.stream.point(point.x, point.y);
+            	}  
+
+			 }
+
+			
+
+
+		   
+        </script>
+      
+
+	</body>
+</html>
