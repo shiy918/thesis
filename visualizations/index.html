@@ -64,7 +64,7 @@
 
 
 		   #icons{	
-		    margin-left:15vw; 	
+		    margin-left:20vw; 	
 		   	width:90vw;
 		   	height:15vh;	
 		   	font-family: 'PT Sans', sans-serif;   	
@@ -312,9 +312,9 @@
 		               .attr('fill','none')
 		               .attr('stroke','rgb(219, 199, 218)')
 			           .attr("transform", 'translate(' + width / 2 + ',' + height / 2 + ')');
+
 			       
-			        //entrances to other layers of information
-			      
+			        //entrances to other layers of information			      
 
 			         svg.append('text')
 			        	.attr('class','classification')
@@ -718,8 +718,6 @@
 
 								        dataForUse.anglesTotalClass = anglesTotalClass;
 
-								        //console.log(dataForUse);
-
 
 								        var colorsClass = dataForUse.colorsForClass;
 
@@ -926,23 +924,10 @@
 		        	consequences[i].counts = counts;
 		        }
 
-
-
-            	 var width = $('.outbreaks-info').width();
-            	 var height = $('.outbreaks-info').height();
-
-            	 //append a svg to the div
-            	 var graph = d3.select('.outbreaks-info')
-		            	  	.append('svg')
-		            	 	.attr('width',width)
-		            	 	.attr('height',height);
-
             }
 
 
-
-
-
+            //pathogen profile section 
             var width = $('#bacteria').width();
             var height = $('#bacteria').height();
 
@@ -1172,8 +1157,6 @@
 
             //map, read geojson
             d3.json('./parsed_data/joined_data_for_map.json',function(err,geojson){
-           	
-            	console.log(geojson);
 
             	DrawOnMap(geojson);
 
@@ -1230,7 +1213,6 @@
 
 		                		for(var j in geojson[i].cases){
 	                	
-
 		            				if (geojson[i].cases[j].latLong !== undefined){
 
 			                			//reverse the order of lattitude and longtitude
@@ -1258,7 +1240,7 @@
 					                  .append('circle')
 					                  .attr('class','dots')	                
 					                  .attr('cx',function(d,i){
-					                  		//console.log(d);
+					                
 					                  		return map.project(d).x;
 					    	                
 					                  })
