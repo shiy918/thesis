@@ -5,8 +5,6 @@ var geojson = JSON.parse(fs.readFileSync('state.geo.json'));
 
 geojson = geojson.features;
 
-//console.log(stateData.length);
-//console.log(stateData[28].length);
 
 for(var i=0;i<geojson.length;i++){
 
@@ -27,6 +25,6 @@ for(var i=0;i<geojson.length;i++){
 	}	
 }
 
-//console.log(geojson[2].cases);
+
 
 fs.writeFileSync('./parsed_data/joined_data_for_map.json',JSON.stringify(geojson));

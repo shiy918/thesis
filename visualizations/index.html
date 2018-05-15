@@ -37,9 +37,11 @@
 		  }
 
 		  #first_part{
+		  	left:0;
+		  	top:0;
 		  	position:absolute;
 		  	visibility:hidden;
-		  	transition: visibility 3s;
+		  	transition: opacity 3s;
 		  	/*opacity:0;*/
 		  	z-index:2;
 		  }
@@ -47,8 +49,6 @@
 		  .start{
 
 		   	 font-size:30px;
-		   	 /*padding-left:20vw;*/
-		   	 /*font-family:'Raleway', sans-serif;*/
 		   	 color:#ea3e3ed1;
 		   	 font-family: 'PT Sans', sans-serif;
 		   }
@@ -63,19 +63,14 @@
 
 
 
-		   #icons{	 	
-		    margin:0 auto;   	
-		    /*display: flex;
-    		align-items: center;
-		    justify-content: center;*/
+		   #icons{	
+		    margin-left:15vw; 	
 		   	width:90vw;
 		   	height:15vh;	
 		   	font-family: 'PT Sans', sans-serif;   	
 		   }
 
-		   #graph{
-		   	 left: 0;
-		   	 top: 0;
+		   #graph{		   	
 		   	 width:100vw;
 		   	 height:100vh;		   	
              background-color:rgba(55, 66, 76, 0.3);
@@ -99,12 +94,6 @@
 
 
 		   #map { 
-		     /*visibility:hidden;*/
-	  	     /*position:fixed;*/
-	  	     top: 0;
-	  	     left:0; 
-	  	/*	 padding-right:5vw;
-	  		 margin-top:5vh;*/
 	  		 width:70vw; 
 	  		 height:100vh;
 		   }
@@ -112,6 +101,7 @@
 		   #side-bar{
 		   	 width:30vw;
 		   	 height:100vh;
+		   	 background-color:rgba(55, 66, 76, 0.3);
 		   	 font-family: 'PT Sans', sans-serif;
 		   }
 
@@ -127,12 +117,13 @@
 
            
             #bacteria{
+            	left:0;
+            	top:0;
             	position:absolute;
             	transition:opacity 3s;
             	visibility:hidden;
             	width:100vw;
             	height:100vh;
-            	/*padding-top:5vh;*/
             	font-family: 'PT Sans', sans-serif;
             	z-index:3;
             }
@@ -145,6 +136,8 @@
             }
 
             #map_part{
+            	left:0;
+            	top:0;
             	position:absolute;
             	transition:opacity 3s;
             	visibility:hidden;
@@ -152,19 +145,13 @@
             	z-index:4;
             }
 
+            .profile{
+            	font-family:'Righteous', cursive;
+            	font-size:50px;
+            }
 
 		</style>
 
-		<script>
-			
-		//elements being clicked, show divs
-		   $().ready(function(){
-		  	  $('#title').click(function(){
-		  	  	 $('#first_part').css('visibility','visible');
-		  	  })	        
-		  })
-			
-		</script>
 
 	</head>
 	<body>
@@ -208,14 +195,6 @@
         	
 
         <script>
-
-        	// d3.select('.start')
-        	//   .on('mouseover',function(){
-	        // 		d3.select(this).attr('stroke','#f9f7f7');
-	        // 	})
-        	//   .on('mouseout',function(){
-        	//   	   d3.select(this).attr('stroke','none');
-        	//   })
 
 
 	        //read in clustered data
@@ -322,6 +301,7 @@
 			        			.innerRadius(100)
 			        			.outerRadius(height/4+50)
 			        			.startAngle(0)
+			        			.padAngle(0.001)
 			        			.endAngle(tau);
 
 			        		   
@@ -339,16 +319,30 @@
 			         svg.append('text')
 			        	.attr('class','classification')
 			        	.text('Are They Detrimental?')
+			        	.attr('font-size',25)
 			        	.attr('fill','red')
-			        	.attr('transform','translate(' + width * 1 /15 + ',' + height *1 /2  +')');
+			        	.attr('transform','translate(' + width * 1 /15 + ',' + height *1 /2  +')')
+			        	.on('mouseover',function(){
+			        		d3.select(this).attr('font-size',30);
+			        	})
+			        	.on('mouseout',function(){
+			        		d3.select(this).attr('font-size',25);
+			        	});
 
 
 			    
 			        svg.append('text')
 			        	.attr('class','go_to_map')
 			        	.text('SEE ALL RECALLS')
+			        	.attr('font-size',20)
 			        	.attr('fill','white')
-			        	.attr('transform','translate(' + width * 8 /10 + ',' + (height+60) *1 /2 +')');
+			        	.attr('transform','translate(' + width * 8 /10 + ',' + (height+60) *1 /2 +')')
+			        	.on('mouseover',function(){
+			        		d3.select(this).style("text-decoration", "underline");
+			        	})
+			        	.on('mouseout',function(){
+			        		d3.select(this).style('text-decoration','none');
+			        	});
 			        	
 
 			        // svg.append('text')
@@ -360,10 +354,27 @@
 			         svg.append('text')
 			        	.attr('class','know_bacteria')
 			        	.text('GET TO KNOW THE PATHOGENS')
+			        	.attr('font-size',20)
 			        	.attr('fill','white')
-			        	.attr('transform','translate(' + width * 8 /10 + ',' + height *3 / 6 +')');
+			        	.attr('transform','translate(' + width * 8 /10 + ',' + height *3 / 6 +')')
+			        	.on('mouseover',function(){
+			        		d3.select(this).style("text-decoration", "underline");
+			        	})
+			        	.on('mouseout',function(){
+			        		d3.select(this).style('text-decoration','none');
+			        	});
 
 
+			        $('.start').mouseover(function(){
+		
+			        	$(this).css('font-size',40);
+			        })
+
+			        $('.start').click(function(){
+
+			        	 $('#title').css('opacity',0);
+				  	  	 $('#first_part').css('visibility','visible');
+				  	})	
 			  
 
 					$('.know_bacteria').click(function(){
@@ -405,12 +416,17 @@
 	        			meats_clicked += 1;
 	        		    if (meats_clicked <= 1){dataToAdd.push(data.Meats);}
 
+	        		    $(this).css('background-color','#3e4349');
+
 	        			fillInArc(dataToAdd);
 	        		})
 	        	
 	        		$('.seafood').click(function(){       			
 	        			seafood_clicked += 1;
 	        			if (seafood_clicked <= 1){dataToAdd.push(data.Seafood);}
+
+	        			//change background color after being selected
+	        			$(this).css('background-color','#3e4349');
 
 	        			fillInArc(dataToAdd);
 	        		})		        	
@@ -419,12 +435,16 @@
 		        		vegies_clicked += 1;
 	        			if (vegies_clicked <= 1){dataToAdd.push(data.Vegetables);}
 
+	        			$(this).css('background-color','#3e4349');
+
 		        		 fillInArc(dataToAdd);
 		        	})
 
 		        	$('.cheese').click(function(){
 		        		cheese_clicked += 1;
 	        			if (cheese_clicked <= 1){dataToAdd.push(data.Cheese);}
+
+	        			$(this).css('background-color','#3e4349');
 
 		        		 fillInArc(dataToAdd);
 		        	})
@@ -433,12 +453,16 @@
 		        		fruits_clicked += 1;
 	        			if (fruits_clicked <= 1){dataToAdd.push(data.Fruits);}
 
+	        			$(this).css('background-color','#3e4349');
+
 		        		 fillInArc(dataToAdd);
 		        	})
 
 		        	$('.ice_creams').click(function(){
 		        		ice_creams_clicked += 1;
 	        			if (ice_creams_clicked <= 1){dataToAdd.push(data.Ice_Creams);}
+
+	        			$(this).css('background-color','#3e4349');
 
 		        		 fillInArc(dataToAdd);
 		        	})
@@ -447,12 +471,16 @@
 		        		desserts_clicked += 1;
 	        			if (desserts_clicked <= 1){dataToAdd.push(data.Desserts);}
 
+	        			$(this).css('background-color','#3e4349');
+
 		        		 fillInArc(dataToAdd);
 		        	})
 
 		        	$('.snacks').click(function(){
 		        		snacks_clicked += 1;
 	        			if (snacks_clicked <= 1){dataToAdd.push(data.Snacks);}
+
+	        			$(this).css('background-color','#3e4349');
 
 		        		 fillInArc(dataToAdd);
 		        	})
@@ -461,12 +489,16 @@
 		        		salads_clicked += 1;
 	        			if (salads_clicked <= 1){dataToAdd.push(data.Salads);}
 
+	        			$(this).css('background-color','#3e4349');
+
 		        		 fillInArc(dataToAdd);
 		        	})
 
 		        	$('.drinks').click(function(){
 		        		drinks_clicked += 1;
 	        			if (drinks_clicked <= 1){dataToAdd.push(data.Drinks);}
+
+	        			$(this).css('background-color','#3e4349');
 
 		        		 fillInArc(dataToAdd);
 		        	})
@@ -475,12 +507,16 @@
 		        		flour_clicked += 1;
 	        			if (flour_clicked <= 1){dataToAdd.push(data.Flour);}
 
+	        			$(this).css('background-color','#3e4349');
+
 		        		 fillInArc(dataToAdd);
 		        	})
 
 		        	$('.condiments').click(function(){
 		        		condiments_clicked += 1;
 	        			if (condiments_clicked <= 1){dataToAdd.push(data.Condiments);}
+
+	        			$(this).css('background-color','#3e4349');
 
 		        		 fillInArc(dataToAdd);
 		        	})
@@ -543,13 +579,12 @@
 
 						            	//create a new data for startAngles and endAngles
 						            	var angles = {};
-
 						            	
 					            		angles.startAngle = previous
 							            angles.endAngle = previous + data[i] * tau 
 							            previous += data[i] * tau
 
-							            anglesTotal.push(angles);						           							           
+							            anglesTotal.push(angles);			           							           
 						            }
 
 
@@ -578,7 +613,6 @@
 				        		                 .attr('fill', function(d,i){ return Assign(colors)[i];})
 				        		                 .on('mouseover',function(d,i){
 
-				        		                 	d3.select('.center_piece').remove();
 
 				        		                 	var data = Number(original[i]);
 
@@ -597,6 +631,7 @@
 				        		                 })
 				        		                 .on('mouseout',function(){
 				        		                 	d3.select(this).attr('stroke','none');
+				        		                 	d3.select('.center_piece').remove();
 				        		                 });
 
 
@@ -683,10 +718,9 @@
 
 								        dataForUse.anglesTotalClass = anglesTotalClass;
 
-								        console.log(dataForUse);
+								        //console.log(dataForUse);
 
 
-								        // dataForUse.anglesTotalClass = anglesTotalClass;
 								        var colorsClass = dataForUse.colorsForClass;
 
 
@@ -710,8 +744,6 @@
 				        		                 .attr('visibility','hidden')
 				        		                 .on('mouseover',function(d,i){
 
-				        		                 	d3.select('.center_piece').remove();
-
 				        		                 	
 				        		                 	d3.select(this).attr('stroke','#fcf9f9');
 
@@ -731,6 +763,8 @@
 				        		                 })
 				        		                 .on('mouseout',function(){
 				        		                 	d3.select(this).attr('stroke','none');
+				        		                 	d3.select('.center_piece').remove();
+
 				        		                 });
 
 
@@ -773,7 +807,7 @@
 
 								        var legendwords = svg.append('g')
 									    			     .attr('class','legendwords')
-											             .attr('transform','translate(' + width * 1.5 /15 + ',' + height * 4 /6  +')');
+											             .attr('transform','translate(' + width * 1.1 /15 + ',' + height * 4 /6  +')');
 
 
 								        legendwords.selectAll('text')
@@ -892,7 +926,6 @@
 		        	consequences[i].counts = counts;
 		        }
 
-		        //console.log(consequences);
 
 
             	 var width = $('.outbreaks-info').width();
@@ -922,7 +955,7 @@
 
 
             svg.append('text')
-      	       .attr('x',width/3)
+      	       .attr('x',width*4/15)
       	       .attr('y',height/6)
       	       .style('fill','#56cbde')
       	       .attr('class','profile')
@@ -934,7 +967,7 @@
       	       .attr('x',width/15)
       	       .attr('y',height/6+30)
       	       .style('fill','white')
-      	       .attr('font-size',20)
+      	       .attr('font-size',30)
       	       .attr('id','bacteria_name')
       	       .attr('class','salmonella')
                .text('Salmonella')
@@ -950,7 +983,7 @@
       	       .attr('x',width/15)
       	       .attr('y',height*2/6+30)
       	       .style('fill','white')
-      	       .attr('font-size',20)
+      	       .attr('font-size',30)
       	       .attr('id','bacteria_name')
       	       .attr('class','e_coli')
                .text('E_coli')
@@ -966,7 +999,7 @@
       	       .attr('x',width/15)
       	       .attr('y',height*3/6+30)
       	       .style('fill','white')
-      	       .attr('font-size',20)
+      	       .attr('font-size',30)
       	       .attr('id','bacteria_name')
       	       .attr('class','norovirus')
                .text('Norovirus')
@@ -984,7 +1017,7 @@
       	       .style('fill','white')
       	       .attr('class','campylobacter')
       	       .attr('id','bacteria_name')
-      	       .attr('font-size',20)
+      	       .attr('font-size',30)
                .text('Campylobacter')
                .on('mouseover',function(){
 	             	d3.select(this).style('fill','#ea3e3ed1');
@@ -998,7 +1031,7 @@
       	       .attr('x',width/15)
       	       .attr('y',height*5/6+30)
       	       .style('fill','white')
-      	       .attr('font-size',20)
+      	       .attr('font-size',30)
       	       .attr('id','bacteria_name')
       	       .attr('class','listeria')
                .text('Listeria')
@@ -1014,7 +1047,7 @@
       	       .attr('x',width/15)
       	       .attr('y',height+30)
       	       .style('fill','white')
-      	       .attr('font-size',20)
+      	       .attr('font-size',30)
       	       .attr('id','bacteria_name')
       	       .attr('class','clostridium')
                .text('Clostridium')
@@ -1026,34 +1059,72 @@
              	})		    
 
 
+
             var target = svg.append('text')
             					   .attr('fill','white')
-            					   .attr('font-size',15)
+            					   .attr('font-size',22)
             					   .attr('transform','translate('+ width*4/15+','+ height *1 /3 +')');
 
             var symptoms = svg.append('text')
             				.attr('fill','white')
-            				.attr('font-size',15)
+            				.attr('font-size',22)
             			    .attr('transform','translate('+ width*4/15+','+ height *1 /2+')'); 
+
+            var transmission = svg.append('text')
+            				.attr('fill','white')
+            				.attr('font-size',22)
+            			    .attr('transform','translate('+ width*4/15+','+ height *2 /3+')');  
+
+            // var learnMore = svg.append('a')
+            // 				.attr('fill','white')
+            // 				.attr('font-size',20)
+            // 				.text('Learn More')
+            // 			    .attr('transform','translate('+ width*4/15+','+ height *3/4+')'); 
 
             
 
             $('.salmonella').click(function(){
             
-            	target.text('Target: young children, frail or elderly people, and others with weakened immune systems.');
+            	target.text('Target:  young children, frail or elderly people, and others with weakened immune systems.');
             	symptoms.text('Symptoms: fever, diarrhea (which may be bloody), nausea, vomiting, and abdominal pain.');
+            	transmission.text(' ');
+
+            	//append a learn more section to direct to other web pages
+          //   	 svg.append('text')
+			       // .attr('fill','white')
+			       // .attr('font-size',20)
+			       // .text('Learn More')
+			       // .attr('class','learnMore')
+			       // .attr('href','https://www.cdc.gov/norovirus/about/index.html')
+		        //    .attr('transform','translate('+ width*4/15+','+ height *3/4+')'); 
             })
 
             $('.e_coli').click(function(){
   
-            	target.text('Transmission: contaminated water or food, or through contact with animals or persons');
-            	symptoms.text('Symptoms: diarrhea or illness outside of the intestinal tract')
+            	transmission.text('Transmission:  contaminated water or food, or through contact with animals or persons');
+            	symptoms.text('Symptoms:  diarrhea or illness outside of the intestinal tract')
+            	target.text(' ');
             })
 
             $('.norovirus').click(function(){
       
-            	target.text(': ')
-            	symptoms.text('Symptoms: ');
+            	transmission.text('Transmission:  from an infected person, contaminated food or water, or by touching contaminated surfaces')
+            	symptoms.text('Symptoms: diarrhea, throwing up,nausea,stomach pain,fever headache, body aches');
+            	target.text('Target:   young children and older adults');
+            })
+
+            $('.campylobacter').click(function(){
+
+            	transmission.text('Transmission:  eating raw or undercooked poultry, drinking raw (unpasteurized) milk');
+            	symptoms.text('Symptoms:  diarrhea (often bloody), fever, and abdominal cramps');
+            	target.text('Target:  people with the blood disorders, AIDS, or people receiving chemotherapy');
+            })
+
+            $('.listeria').click(function(){
+
+            	transmission.text('Transmission:  caused by eating food contaminated with the bacterium Listeria monocytogenes');
+            	target.text('Target: pregnant women and their newborns, adults aged 65 or older, and people with weakened immune systems');
+            	symptoms.text('Symptoms:  headache, stiff neck, confusion, loss of balance, and convulsions in addition to fever and muscle aches')
             })
 
 
@@ -1063,14 +1134,26 @@
 			        	.text('SEE ALL RECALLS')
 			            .attr('x',width*5/6)
 			            .attr('y',height*5/6+90)
-			        	.attr('fill','white');
+			        	.attr('fill','white')
+			        	.on('mouseover',function(){
+			        		d3.select(this).style("text-decoration", "underline");
+			        	})
+			        	.on('mouseout',function(){
+			        		d3.select(this).style('text-decoration','none');
+			        	});
 
 		     svg.append('text')
 		        	.attr('class','food_groups')
 		        	.text('SEE FOOD GROUPS')
 		            .attr('x',width*5/6)
 		            .attr('y',height*5/6+60)
-		        	.attr('fill','white');
+		        	.attr('fill','white')
+		        	.on('mouseover',function(){
+		        		d3.select(this).style("text-decoration", "underline");
+		        	})
+		        	.on('mouseout',function(){
+		        		d3.select(this).style('text-decoration','none');
+		        	});
 
 
 		    $('.go_to_map').click(function(){
@@ -1081,18 +1164,17 @@
 
 		    $('.food_groups').click(function(){
 
-		    	$('#bacteria').css('visibility','hidden');
+		    	$('#bacteria').css('opacity',0);
 		    	$('#first_part').css('opacity',1);
 		    });
 
-
-
-         
-
+      
 
             //map, read geojson
             d3.json('./parsed_data/joined_data_for_map.json',function(err,geojson){
-            	
+           	
+            	console.log(geojson);
+
             	DrawOnMap(geojson);
 
             })
@@ -1106,7 +1188,8 @@
 				container: 'map',
 				style: 'mapbox://styles/shiy918/cjf1onfbd5e3o2slw54q3ybzl',
 				center: [-96, 37.8],
-				zoom: 3.5
+				zoom: 3.8,
+				interactive: false
 				
 			});
 
@@ -1115,7 +1198,7 @@
 			//draw on map
 			function DrawOnMap(geojson){
 
-			   map.addControl(new mapboxgl.NavigationControl(),'top-right');
+			   // map.addControl(new mapboxgl.NavigationControl(),'top-right');
 
 			   var container = map.getCanvasContainer()
                var svg = d3.select(container).append('svg')
@@ -1166,8 +1249,6 @@
  
 			            }
 
-                        console.log(dataForCircles);
-
 
                    
                //create circles 
@@ -1177,7 +1258,7 @@
 					                  .append('circle')
 					                  .attr('class','dots')	                
 					                  .attr('cx',function(d,i){
-
+					                  		//console.log(d);
 					                  		return map.project(d).x;
 					    	                
 					                  })
@@ -1194,7 +1275,6 @@
 						                  	//make circles change on mouseover
 						                    d3.select(this).attr('r','10px');
 						                    d3.select(this).attr('fill','red');
-
 
 	  										//mouseover this, match index of d, output corresponding case in dataForCircles.info
 	  										var city = dataForCircles.info[i].city;
@@ -1238,7 +1318,7 @@
 
                 svg.append('text')
           	       .attr('x',width/6)
-          	       .attr('y',height/3-30)
+          	       .attr('y',height/3-40)
           	       .style('fill','white')
           	       .attr('class','year');
 
@@ -1250,13 +1330,13 @@
 
           	    svg.append('text')
           	       .attr('x',width/6)
-          	       .attr('y',height/3+30)
+          	       .attr('y',height/3+40)
           	       .style('fill','white')
           	       .attr('class','company');
 
           	    svg.append('text')
           	       .attr('x',width/6)
-          	       .attr('y',height/3+60)
+          	       .attr('y',height/3+80)
           	       .style('fill','white')
           	       .attr('class','quantity');
 
@@ -1268,19 +1348,31 @@
 			        	.text('GET TO KNOW THE PATHOGENS')
 			            .attr('x',width/6)
 			            .attr('y',height*2/3+60)
-			        	.attr('fill','white');
+			        	.attr('fill','white')
+			        	.on('mouseover',function(){
+			        		d3.select(this).style("text-decoration", "underline");
+			        	})
+			        	.on('mouseout',function(){
+			        		d3.select(this).style('text-decoration','none');
+			        	});
 
 			     svg.append('text')
 			        	.attr('class','food_groups')
 			        	.text('SEE FOOD GROUPS')
 			            .attr('x',width/6)
 			            .attr('y',height*2/3+90)
-			        	.attr('fill','white');
+			        	.attr('fill','white')
+			        	.on('mouseover',function(){
+			        		d3.select(this).style("text-decoration", "underline");
+			        	})
+			        	.on('mouseout',function(){
+			        		d3.select(this).style('text-decoration','none');
+			        	});
 
 
 			    $('.bacteria').click(function(){
 
-			    	$('#bacteria').css('visibility','visible');
+			    	$('#bacteria').css('opacity',1);
 			    	$('#map_part').css('visibility','hidden');
 			    });
 
@@ -1289,35 +1381,32 @@
 			    	$('#first_part').css('opacity',1);
 			    	$('#map_part').css('visibility','hidden');
 			    });
-
-			        	
+			  	
           
 
-            	function update() {
-                    featureElement.attr("d", path);
-                    // circleElement.data(coordinates)
-				                //   .enter()
-				                //   .attr('cx',function(d){ return map.project(d).x; })
-				                //   .attr('cy',function(d){ return map.project(d).y; });                  
-				 }
+     //        	function update() {
+     //                featureElement.attr("d", path);
+     //                // d3.select('.dots')
+     //                //   .data(coordinates.stream);               
+				 // }
 
 
 
-                map.on("viewreset", update)
-                map.on("movestart", function(){
-            		svg.classed("hidden", true); 
-            	});
+     //            map.on("viewreset", update)
+     //            map.on("movestart", function(){
+     //        		svg.classed("hidden", true); 
+     //        	});
 
-                map.on("rotate", function(){
-            		svg.classed("hidden", true);
-            	});
+     //            map.on("rotate", function(){
+     //        		svg.classed("hidden", true);
+     //        	});
 
-                map.on("moveend", function(){
-            		update();
-            		svg.classed("hidden", false);
-            	});
+     //            map.on("moveend", function(){
+     //        		update();
+     //        		svg.classed("hidden", false);
+     //        	});
 
-                update();
+     //            update();
 
                 function projectPoint(lon, lat) {
                     var point = map.project(new mapboxgl.LngLat(lon, lat));
