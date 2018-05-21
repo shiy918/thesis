@@ -9,6 +9,3 @@ Food is essential. However, when quality control fails, we can easily put oursel
 [![thesis.png](thesis.png)](https://shiy918.github.io/thesis/visualizations/index.html)
 *some of the main features for this project shown above*
 
-
-
- 
