@@ -64,16 +64,16 @@
 
 
 		   #icons{	
-		    margin-left:20vw; 	
+		    margin-left:18vw; 	
 		   	width:90vw;
 		   	height:15vh;	
 		   	font-family: 'PT Sans', sans-serif;   	
 		   }
 
-		   #graph{		   	
+		   #graph{
 		   	 width:100vw;
 		   	 height:100vh;		   	
-             background-color:rgba(55, 66, 76, 0.3);
+             /*background-color:pink;*/
              font-family: 'PT Sans', sans-serif;
 		   }
 
@@ -85,6 +85,12 @@
              width:75px;
              height:75px;
              color:white;
+		   }
+
+		   #credit{
+		   	 color: rgb(219, 222, 224, 0.5);
+		   	 margin-left:50vw;
+		   	 font-family: 'PT Sans', sans-serif; 
 		   }
 
 		   img{
@@ -106,6 +112,7 @@
 		   }
 
 		    svg {
+		    	background-color:rgba(55, 66, 76, 0.3);
                 position: absolute;
                 width: 100%;
                 height: 100%;
@@ -150,6 +157,8 @@
             	font-size:50px;
             }
 
+
+
 		</style>
 
 
@@ -165,21 +174,22 @@
 
   		<div id='first_part'>
 	  		<div id='icons'>
-	  			<div class='meats' id='food-icon'  ><img src="./icons/chicken-leg.svg" >Meats</div>
-	  			<div class='seafood' id='food-icon' ><img src='./icons/hot-fish-.svg'>Seafood</div>
-	  			<div class='vegies' id='food-icon' ><img src='./icons/broccoli.svg' >Vegetables</div>
+	  			<div class='meats' id='food-icon'  ><img src="./icons/meat.svg" >Meats</div>
+	  			<div class='seafood' id='food-icon' ><img src='./icons/fish.svg'>Seafood</div>
+	  			<div class='vegies' id='food-icon' ><img src='./icons/carrot.svg' >Vegetables</div>
 	  			<div class='cheese' id='food-icon' ><img src='./icons/cheese.svg' >Cheese</div>
-	  			<div class='fruits' id='food-icon' ><img src='./icons/orange.svg'>Fruits</div>
-	  			<div class='ice_creams' id='food-icon' ><img src='./icons/ice_cream.svg'>Ice Creams</div>
-	  			<div class='desserts' id='food-icon' ><img src='./icons/cake.svg' >Desserts</div>
+	  			<div class='fruits' id='food-icon' ><img src='./icons/apple.svg'>Fruits</div>
+	  			<div class='ice_creams' id='food-icon' ><img src='./icons/ice-cream.svg'>Ice Creams</div>
+	  			<div class='desserts' id='food-icon' ><img src='./icons/cupcake.svg' >Desserts</div>
 	  			<div class='snacks' id='food-icon' ><img src='./icons/popcorn.svg'>Snacks</div>
 	  			<div class='salads' id='food-icon' '><img src='./icons/salad.svg'>Salads</div>
-	  			<div class='drinks' id='food-icon' ><img src='./icons/drinks.svg'>Drinks</div>
+	  			<div class='drinks' id='food-icon' ><img src='./icons/milk-bottle.svg'>Drinks</div>
 	  			<div class='flour' id='food-icon' ><img src='./icons/flour.svg'>Flour</div>
 	 			<div class='condiments' id='food-icon' ><img src='./icons/salt.svg' >Condiments</div>
 	  	    </div>
 	  	    <div id='graph'> 		
 		  	</div>
+		  	<div id='credit'>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 		</div>
 
 	  	<div id='bacteria'>
@@ -195,7 +205,6 @@
         	
 
         <script>
-
 
 	        //read in clustered data
 	        d3.json('./parsed_data/Clustered_N_Organized_By_Food_Group.json',function(err,data){
@@ -314,8 +323,7 @@
 			           .attr("transform", 'translate(' + width / 2 + ',' + height / 2 + ')');
 
 			       
-			        //entrances to other layers of information			      
-
+			        //entrances to other layers of information			  
 			         svg.append('text')
 			        	.attr('class','classification')
 			        	.text('Are They Detrimental?')
@@ -367,7 +375,7 @@
 
 			        $('.start').mouseover(function(){
 		
-			        	$(this).css('font-size',40);
+			        	$(this).css('text-decoration','underline dotted rgba(247, 248, 249, 0.6)');
 			        })
 
 			        $('.start').click(function(){
@@ -416,7 +424,8 @@
 	        			meats_clicked += 1;
 	        		    if (meats_clicked <= 1){dataToAdd.push(data.Meats);}
 
-	        		    $(this).css('background-color','#3e4349');
+	        		    $(this).css('background-color','#3e4349')
+	        		    	   .css('color','#c4725e');
 
 	        			fillInArc(dataToAdd);
 	        		})
@@ -425,8 +434,9 @@
 	        			seafood_clicked += 1;
 	        			if (seafood_clicked <= 1){dataToAdd.push(data.Seafood);}
 
-	        			//change background color after being selected
-	        			$(this).css('background-color','#3e4349');
+	        			//change background color and word color after being selected
+	        			$(this).css('background-color','#3e4349')
+	        				   .css('color','#5aa7bc');
 
 	        			fillInArc(dataToAdd);
 	        		})		        	
@@ -435,7 +445,8 @@
 		        		vegies_clicked += 1;
 	        			if (vegies_clicked <= 1){dataToAdd.push(data.Vegetables);}
 
-	        			$(this).css('background-color','#3e4349');
+	        			$(this).css('background-color','#3e4349')
+	        				   .css('color','#82bc5a');
 
 		        		 fillInArc(dataToAdd);
 		        	})
@@ -444,7 +455,8 @@
 		        		cheese_clicked += 1;
 	        			if (cheese_clicked <= 1){dataToAdd.push(data.Cheese);}
 
-	        			$(this).css('background-color','#3e4349');
+	        			$(this).css('background-color','#3e4349')
+	        				   .css('color','#e8af4c');
 
 		        		 fillInArc(dataToAdd);
 		        	})
@@ -453,7 +465,8 @@
 		        		fruits_clicked += 1;
 	        			if (fruits_clicked <= 1){dataToAdd.push(data.Fruits);}
 
-	        			$(this).css('background-color','#3e4349');
+	        			$(this).css('background-color','#3e4349')
+	        			       .css('color','#f2a9a9');
 
 		        		 fillInArc(dataToAdd);
 		        	})
@@ -462,7 +475,8 @@
 		        		ice_creams_clicked += 1;
 	        			if (ice_creams_clicked <= 1){dataToAdd.push(data.Ice_Creams);}
 
-	        			$(this).css('background-color','#3e4349');
+	        			$(this).css('background-color','#3e4349')
+	        			       .css('color','#efbae2');
 
 		        		 fillInArc(dataToAdd);
 		        	})
@@ -471,7 +485,8 @@
 		        		desserts_clicked += 1;
 	        			if (desserts_clicked <= 1){dataToAdd.push(data.Desserts);}
 
-	        			$(this).css('background-color','#3e4349');
+	        			$(this).css('background-color','#3e4349')
+	        				   .css('color','#f282b3');
 
 		        		 fillInArc(dataToAdd);
 		        	})
@@ -480,7 +495,8 @@
 		        		snacks_clicked += 1;
 	        			if (snacks_clicked <= 1){dataToAdd.push(data.Snacks);}
 
-	        			$(this).css('background-color','#3e4349');
+	        			$(this).css('background-color','#3e4349')
+	        			       .css('color','#9dafdd');
 
 		        		 fillInArc(dataToAdd);
 		        	})
@@ -489,7 +505,8 @@
 		        		salads_clicked += 1;
 	        			if (salads_clicked <= 1){dataToAdd.push(data.Salads);}
 
-	        			$(this).css('background-color','#3e4349');
+	        			$(this).css('background-color','#3e4349')
+	        				   .css('color','#68b79d');
 
 		        		 fillInArc(dataToAdd);
 		        	})
@@ -498,7 +515,8 @@
 		        		drinks_clicked += 1;
 	        			if (drinks_clicked <= 1){dataToAdd.push(data.Drinks);}
 
-	        			$(this).css('background-color','#3e4349');
+	        			$(this).css('background-color','#3e4349')
+	        				   .css('color','#aa8fc4');
 
 		        		 fillInArc(dataToAdd);
 		        	})
@@ -507,7 +525,8 @@
 		        		flour_clicked += 1;
 	        			if (flour_clicked <= 1){dataToAdd.push(data.Flour);}
 
-	        			$(this).css('background-color','#3e4349');
+	        			$(this).css('background-color','#3e4349')
+	        				   .css('color','#aa8fc4');
 
 		        		 fillInArc(dataToAdd);
 		        	})
@@ -516,14 +535,16 @@
 		        		condiments_clicked += 1;
 	        			if (condiments_clicked <= 1){dataToAdd.push(data.Condiments);}
 
-	        			$(this).css('background-color','#3e4349');
+	        			$(this).css('background-color','#3e4349')
+	        				   .css('color','#8c6662');
 
-		        		 fillInArc(dataToAdd);
+		        		fillInArc(dataToAdd);
 		        	})
 	        		        
 
 					        //to fill in arc with data
 					        function fillInArc(inputs){
+
 
 					        	d3.select('g').remove();
 
@@ -699,7 +720,6 @@
 
 								        for(var i=0;i<classesAll.length;i++){
 
-
 							            		for (var j=0; j<classesAll[i].length;j++){
 
 						            			    var angles = {};
@@ -720,7 +740,6 @@
 
 
 								        var colorsClass = dataForUse.colorsForClass;
-
 
 								        
 								        var pieChartClass = svg.append('g')								        		       
@@ -777,10 +796,43 @@
 								        			   .domain(content)
 								        			   .range(legendColor);
 
+										
 
-								        //draw legend
-								        //create a g for legend 
-								        //in g, append rect and text
+				       					// var all_groups = ['.meats','.seafood','.vegies','.cheese','.fruits','.ice_creams','.desserts','.snacks','.salads','.drinks','.flour','.condiments'];
+
+
+
+				      //  					//if color of food text is changed, then change it to red
+										// for (var i=0; i<all_groups.length;i++){
+
+										// 	var group = all_groups[i];
+
+										//     if ($(group).css('color') != 'white'){
+										//     	console.log($(group));
+										//     }
+
+										// 	// if ($(group).css('color') )
+										// }
+
+
+								        //hide classification layer first, then show as clicked on
+								         $('.classification').click(function(){
+								         
+								         	$('.arcs_total path').attr('fill','grey');
+								         	$('.arcs_classes path').attr('visibility','visible');
+
+								         	//if color of food text is changed, then change it to red
+											// for (var i=0; i<all_groups.length;i++){
+
+											// 	var group = all_groups[i];
+											// 	console.log(group);
+
+												 // if ($(group).css('color') != 'white' ){
+												 // 	$(group).css('color','red');
+												 // }
+											// }
+
+										//draw legend 
 									    var legend =  svg.append('g')
 									    			     .attr('class','legend')
 											             .attr('transform','translate(' + width * 1 /15 + ',' + height * 4 /6  +')');
@@ -823,14 +875,7 @@
 								              .style('fill','white')
 								              .style("text-anchor", "start")
             								  .style("font-size", 15);
- 										
-				       
-
-								        //hide classification layer first, then show as clicked on
-								         $('.classification').click(function(){
-								         
-								         	$('.arcs_total path').attr('fill','grey');
-								         	$('.arcs_classes path').attr('visibility','visible');
+											
 
 								         })
 
@@ -1172,8 +1217,7 @@
 				style: 'mapbox://styles/shiy918/cjf1onfbd5e3o2slw54q3ybzl',
 				center: [-96, 37.8],
 				zoom: 3.8,
-				interactive: false
-				
+				interactive: false			
 			});
 
 			
@@ -1286,7 +1330,8 @@
 					                    d3.select(this).attr('fill','#56cbde');
 					                 })
 
-
+			    // console.log(circleElement);
+			    // console.log(featureElement);
 
 			    var width = $('#side-bar').width();
 			    var height = $('#side-bar').height();
@@ -1364,31 +1409,43 @@
 			    	$('#map_part').css('visibility','hidden');
 			    });
 			  	
-          
+          		// var coordinate = [70, 15];
+          		// dataForCircles.coordinates.forEach(function(d){
+          		//  	console.log(map.project(d).x)
+          		// });
 
-     //        	function update() {
-     //                featureElement.attr("d", path);
-     //                // d3.select('.dots')
-     //                //   .data(coordinates.stream);               
-				 // }
+       //    		console.log(circleElement.data());
+			    // console.log(featureElement);
+			    // console.log(map.project(dataForCircles.coordinates));
+
+
+            	function update() {
+                    featureElement.attr("d", path);
+                    // console.log(map.project(dataForCircles.coordinates).x);
+
+                    //update circles' data --> coordinates 
+                    //need to access the coordiantes first 
+
+               	     // circleElement.data(dataForCircles.coordinates);
+				 }
 
 
 
-     //            map.on("viewreset", update)
-     //            map.on("movestart", function(){
-     //        		svg.classed("hidden", true); 
-     //        	});
+             //    map.on("viewreset", update)
+             //    map.on("movestart", function(){
+            	// 	svg.classed("hidden", true); 
+            	// });
 
-     //            map.on("rotate", function(){
-     //        		svg.classed("hidden", true);
-     //        	});
+             //    map.on("rotate", function(){
+            	// 	svg.classed("hidden", true);
+            	// });
 
-     //            map.on("moveend", function(){
-     //        		update();
-     //        		svg.classed("hidden", false);
-     //        	});
+             //    map.on("moveend", function(){
+            	// 	update();
+            	// 	svg.classed("hidden", false);
+            	// });
 
-     //            update();
+             //    update();
 
                 function projectPoint(lon, lat) {
                     var point = map.project(new mapboxgl.LngLat(lon, lat));
@@ -1397,9 +1454,7 @@
 
 			 }
 
-			
-
-
+		
 		   
         </script>
       
