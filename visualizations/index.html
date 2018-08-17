@@ -367,7 +367,7 @@
 
 	        //read in clustered data
 	        d3.json('./parsed_data/Clustered_N_Organized_By_Food_Group.json',function(err,data){
-
+	        	//console.log(data);
 	        	DrawAnalysis(data);
 	        })
             
@@ -1274,7 +1274,7 @@
 
             //map, read geojson
             d3.json('./parsed_data/joined_data_for_map.json',function(err,geojson){
-
+            	//console.log(geojson);
             	DrawOnMap(geojson);
 
             })
@@ -1357,7 +1357,7 @@
  
 			            }
 
-
+			    //console.log(dataForCircles);
                    
                //create circles 
              	var circleElement = svg.selectAll('circle')
@@ -1375,14 +1375,33 @@
 					                  		return map.project(d).y;
 						              })
 					                  .attr('r','5px')
-					                  .attr('fill','#ef5dcb')
-					                  .style('stroke','rgb(244, 195, 239)')
+					                  .attr('fill',function(d,i){
+
+						                  	//fill different colors for differenct food groups
+						                  	if (dataForCircles.info[i].food_group === 'Meats') return '#c4725e';
+						                  	if (dataForCircles.info[i].food_group === 'Seafood') return '#5aa7bc';
+						                  	if (dataForCircles.info[i].food_group === 'Vegetables') return '#82bc5a';
+						                  	if (dataForCircles.info[i].food_group === 'Cheese') return '#e8af4c';
+						                  	if (dataForCircles.info[i].food_group === 'Fruits') return '#f2a9a9';
+						                  	if (dataForCircles.info[i].food_group === 'Ice_Creams') return '#efbae2';
+						                  	if (dataForCircles.info[i].food_group === 'Snacks') return '#9dafdd';
+						                  	if (dataForCircles.info[i].food_group === 'Salads') return '#68b79d';
+						                  	if (dataForCircles.info[i].food_group === 'Drinks') return '#aa8fc4';
+						                  	if (dataForCircles.info[i].food_group === 'Desserts') return '#f282b3';
+						                  	if (dataForCircles.info[i].food_group === 'Flour') return '#d6a922';
+						                  	if (dataForCircles.info[i].food_group === 'Condiments') return '#8c6662';
+						                  	else return 'none';
+
+					                  })
+					                  // .style('stroke','rgb(244, 195, 239)')
 					                  .on('mouseover',function(d,i){
 
 						      
 						                  	//make circles change on mouseover
 						                    d3.select(this).attr('r','10px');
 						                    d3.select(this).attr('fill','red');
+
+						                    //console.log(dataForCircles.info[i]);
 
 	  										//mouseover this, match index of d, output corresponding case in dataForCircles.info
 	  										var city = dataForCircles.info[i].city;
@@ -1409,7 +1428,7 @@
 					                 .on('mouseout',function(d,i){
 
 					                 	d3.select(this).attr('r','5px');
-					                    d3.select(this).attr('fill','#56cbde');
+					     
 					                 })
 
 			    // console.log(circleElement);
@@ -1503,14 +1522,8 @@
 
             	function update() {
                     featureElement.attr("d", path);
-                    // console.log(map.project(dataForCircles.coordinates).x);
-
-                    //update circles' data --> coordinates 
-                    //need to access the coordiantes first 
-
-               	     // circleElement.data(dataForCircles.coordinates);
+           
 				 }
-
 
 
              //    map.on("viewreset", update)
