@@ -680,7 +680,7 @@
 	        			if (flour_clicked <= 1){dataToAdd.push(data.Flour);}
 
 	        			$(this).css('background-color','#3e4349')
-	        				   .css('color','#aa8fc4');
+	        				   .css('color','#d6a922');
 
 		        		 fillInArc(dataToAdd);
 		        	})
@@ -942,32 +942,6 @@
 				        		        var names = dataForUse.names;
 
 
-				        		         var content = ['Can Cause Death','Can Cause Discomfort','Not Serious'];
-								         var legendColor = ['#d62a0c','#e5c7c3','#b5b1b1'];
-
-
-								         var lineup = d3.scaleOrdinal()
-								        			   .domain(content)
-								        			   .range(legendColor);
-
-										
-
-				       					// var all_groups = ['.meats','.seafood','.vegies','.cheese','.fruits','.ice_creams','.desserts','.snacks','.salads','.drinks','.flour','.condiments'];
-
-
-
-				      //  					//if color of food text is changed, then change it to red
-										// for (var i=0; i<all_groups.length;i++){
-
-										// 	var group = all_groups[i];
-
-										//     if ($(group).css('color') != 'white'){
-										//     	console.log($(group));
-										//     }
-
-										// 	// if ($(group).css('color') )
-										// }
-
 
 								        //hide classification layer first, then show as clicked on
 								         $('.classification').click(function(){
@@ -975,16 +949,16 @@
 								         	$('.arcs_total path').attr('fill','grey');
 								         	$('.arcs_classes path').attr('visibility','visible');
 
-								         	//if color of food text is changed, then change it to red
-											// for (var i=0; i<all_groups.length;i++){
 
-											// 	var group = all_groups[i];
-											// 	console.log(group);
+								        //legend content 
+								        var content = ['Can Cause Death','Can Cause Discomfort','Not Serious'];
+								        var legendColor = ['#d62a0c','#e5c7c3','#b5b1b1'];
 
-												 // if ($(group).css('color') != 'white' ){
-												 // 	$(group).css('color','red');
-												 // }
-											// }
+
+								        var lineup = d3.scaleOrdinal()
+								        			   .domain(content)
+								        			   .range(legendColor);
+
 
 										//draw legend 
 									    var legend =  svg.append('g')
@@ -1434,6 +1408,7 @@
 			    // console.log(circleElement);
 			    // console.log(featureElement);
 
+			    //setup for text placement for mouseovers
 			    var width = $('#side-bar').width();
 			    var height = $('#side-bar').height();
 
@@ -1470,45 +1445,101 @@
 
 
 
-                //append nagivational texts on the sidebar 
-			    svg.append('text')
-			        	.attr('class','bacteria')
-			        	.text('GET TO KNOW THE PATHOGENS')
-			            .attr('x',width/6)
-			            .attr('y',height*3/4+80)
-			        	.attr('fill','white')
-			        	.on('mouseover',function(){
-			        		d3.select(this).style("text-decoration", "underline");
-			        	})
-			        	.on('mouseout',function(){
-			        		d3.select(this).style('text-decoration','none');
-			        	});
+          	    //draw a legend 
+		        var content = ['Meats','Seafood','Vegetables','Cheese','Fruits','Salads','Desserts','Snacks','Ice Creams','Drinks','Flour','Condiments'];
+		        var legendColor = ['#c4725e','#5aa7bc','#82bc5a','#e8af4c','#f2a9a9','#68b79d','#f282b3','#9dafdd','#efbae2','#aa8fc4','#d6a922','#8c6662'];
 
-			     svg.append('text')
-			        	.attr('class','food_groups')
-			        	.text('SEE FOOD GROUPS')
-			            .attr('x',width/6)
-			            .attr('y',height*3/4+110)
-			        	.attr('fill','white')
-			        	.on('mouseover',function(){
-			        		d3.select(this).style("text-decoration", "underline");
-			        	})
-			        	.on('mouseout',function(){
-			        		d3.select(this).style('text-decoration','none');
-			        	});
+		        var Assign = function(d,i){return d;}
+
+		        var lineup = d3.scaleOrdinal()
+		        			   .domain(content)
+		        			   .range(legendColor);
 
 
-			    $('.bacteria').click(function(){
+				//draw legend 
+			    var legend =  svg.append('g')
+			    			     .attr('class','legend')
+					             .attr('transform','translate(' + width /6 + ',' + height *5/8  +')');
 
-			    	$('#bacteria').css('opacity',1);
-			    	$('#map_part').css('visibility','hidden');
-			    });
 
-			    $('.food_groups').click(function(){
+	
+				legend.selectAll('rect')
+					  .data(lineup.domain())
+					  .enter()
+					  .append('circle')
+					  .attr('x',0)
+					  .attr('y',0)
+			     	  .attr('r',5)
+		        	  .attr("transform", function (d, i) {
+				                return "translate(0," + i * 18 + ")"
+				        })
+		        	  .style('fill',function(d,i){
+		        	  	return Assign(legendColor)[i];
+		        	  })
 
-			    	$('#first_part').css('opacity',1);
-			    	$('#map_part').css('visibility','hidden');
-			    });
+
+		        var legendwords = svg.append('g')
+			    			     .attr('class','legendwords')
+					             .attr('transform','translate(' + width /6 + ',' + height * 5 /8  +')');
+
+
+		        legendwords.selectAll('text')
+		              .data(content)
+		              .enter()
+		              .append('text')
+		              .attr('x',20)
+		              .attr('y',5)
+		              .attr("transform", function (d, i) {
+				                return "translate(0," + i * 18 + ")"
+				      })
+		              .text(function (d, i) {
+				            return d
+				        })
+		              .style('fill','white')
+		              .style("text-anchor", "start")
+					  .style("font-size", 10);
+
+
+
+       //          //append nagivational texts on the sidebar 
+			    // svg.append('text')
+			    //     	.attr('class','bacteria')
+			    //     	.text('GET TO KNOW THE PATHOGENS')
+			    //         .attr('x',width/6)
+			    //         .attr('y',height*3/4+80)
+			    //     	.attr('fill','white')
+			    //     	.on('mouseover',function(){
+			    //     		d3.select(this).style("text-decoration", "underline");
+			    //     	})
+			    //     	.on('mouseout',function(){
+			    //     		d3.select(this).style('text-decoration','none');
+			    //     	});
+
+			    //  svg.append('text')
+			    //     	.attr('class','food_groups')
+			    //     	.text('SEE FOOD GROUPS')
+			    //         .attr('x',width/6)
+			    //         .attr('y',height*3/4+110)
+			    //     	.attr('fill','white')
+			    //     	.on('mouseover',function(){
+			    //     		d3.select(this).style("text-decoration", "underline");
+			    //     	})
+			    //     	.on('mouseout',function(){
+			    //     		d3.select(this).style('text-decoration','none');
+			    //     	});
+
+
+			    // $('.bacteria').click(function(){
+
+			    // 	$('#bacteria').css('opacity',1);
+			    // 	$('#map_part').css('visibility','hidden');
+			    // });
+
+			    // $('.food_groups').click(function(){
+
+			    // 	$('#first_part').css('opacity',1);
+			    // 	$('#map_part').css('visibility','hidden');
+			    // });
 			  	
           		// var coordinate = [70, 15];
           		// dataForCircles.coordinates.forEach(function(d){
